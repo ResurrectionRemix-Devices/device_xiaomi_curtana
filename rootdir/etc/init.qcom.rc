@@ -30,6 +30,9 @@ import /vendor/etc/init/hw/init.target.rc
 import /vendor/etc/init/hw/init.safailnet.rc
 
 on early-init
+    # Disable EAS
+    write /sys/kernel/debug/sched_features NO_ENERGY_AWARE
+
     mount debugfs debugfs /sys/kernel/debug
     chmod 0755 /sys/kernel/debug
 
@@ -486,6 +489,9 @@ service vendor.ss_ramdump /system/vendor/bin/subsystem_ramdump
     group system
     disabled
 
+    # Enable EAS
+    write /sys/kernel/debug/sched_features ENERGY_AWARE
+
 on property:ro.vendor.iocgrp.config=1
     mkdir /dev/blkio
     mount cgroup none /dev/blkio blkio
@@ -528,6 +534,9 @@ on property:persist.vendor.sys.rawdump_copy=0
     write /sys/kernel/dload/emmc_dload 0
 
 on property:sys.boot_completed=1
+    # Enable EAS
+    write /sys/kernel/debug/sched_features ENERGY_AWARE
+
     write /dev/kmsg "Boot completed "
     #Reset read ahead for dm-0, dm-1 and dm-2 to 512kb
     write /sys/block/dm-0/queue/read_ahead_kb 512

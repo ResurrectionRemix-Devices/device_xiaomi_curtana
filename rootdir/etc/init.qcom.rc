@@ -590,13 +590,17 @@ service vendor.ss_ramdump /system/vendor/bin/subsystem_ramdump
     group system
     disabled
 
-    # Enable EAS
-    write /sys/kernel/debug/sched_features ENERGY_AWARE
-
 on charger
     setprop sys.usb.controller a600000.dwc3
     setprop sys.usb.configfs 1
-    write /sys/module/lpm_levels/parameters/sleep_disabled 0
+    setprop vendor.setup.power 1
+
+    write /sys/devices/system/cpu/cpu1/online 0
+    write /sys/devices/system/cpu/cpu2/online 0
+    write /sys/devices/system/cpu/cpu3/online 0
+    write /sys/devices/system/cpu/cpu5/online 0
+    write /sys/devices/system/cpu/cpu6/online 0
+    write /sys/devices/system/cpu/cpu7/online 0
 
 on property:ro.vendor.iocgrp.config=1
     mkdir /dev/blkio
@@ -625,7 +629,7 @@ on property:persist.sys.pil_proxy_timeout=*
 on property:persist.vendor.ssr.restart_level=*
     start vendor.ssr_setup
 
-on property:persist.vendor.ssr.enable_ramdumps=1
+on property:persist.vendor.ssr.enable_ramdumps=1 && property:ro.boot.mode!=charger
     write /sys/module/subsystem_restart/parameters/enable_ramdumps 1
     mkdir /data/vendor/ramdump_ssr 770 system system
     start vendor.ss_ramdump
@@ -640,8 +644,7 @@ on property:persist.vendor.sys.rawdump_copy=0
     write /sys/kernel/dload/emmc_dload 0
 
 on property:sys.boot_completed=1
-    # Enable EAS
-    write /sys/kernel/debug/sched_features ENERGY_AWARE
+    setprop vendor.setup.power 1
 
     write /dev/kmsg "Boot completed "
     #Reset read ahead for dm-0, dm-1 and dm-2 to 512kb

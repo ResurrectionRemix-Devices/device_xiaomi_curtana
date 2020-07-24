@@ -266,4 +266,6 @@
     <string name="config_smartChargingSuspendValue" translatable="false">1</string>
     <string name="config_smartChargingResumeValue" translatable="false">0</string>
 
+    <!-- Enable doze alwaysOn Display -->
+    <bool name="config_dozeAlwaysOnDisplayAvailable">true</bool>
 </resources>

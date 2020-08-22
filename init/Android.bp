@@ -15,7 +15,7 @@
 //
 
 cc_library_static {
-    name: "libinit_xiaomi_sm6250",
+    name: "libinit_curtana",
     recovery_available: true,
     srcs: [
         "init.cpp"

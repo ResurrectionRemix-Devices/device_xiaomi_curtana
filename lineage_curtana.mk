@@ -20,6 +20,7 @@ PRODUCT_NAME := lineage_curtana
 PRODUCT_DEVICE := curtana
 PRODUCT_BRAND := Redmi
 PRODUCT_MANUFACTURER := Xiaomi
+PRODUCT_MODEL := Redmi Note 9S
 
 PRODUCT_GMS_CLIENTID_BASE := android-xiaomi
 
